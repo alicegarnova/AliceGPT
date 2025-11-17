@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { IMessage } from "./models";
+import { useDispatch, useSelector } from "react-redux";
 
 export const App = () => {
-  const [messages, setMessages] = useState<IMessage[]>(() => {
-    const saved = localStorage.getItem("threads");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const messages = useSelector((state) => state.sendMessages);
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,7 +29,10 @@ export const App = () => {
 
     const newMessages = [...messages, { role: "user", content: input }];
 
-    setMessages(newMessages);
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: { role: "user", content: input },
+    });
     setInput("");
     setLoading(true);
 
@@ -50,7 +51,10 @@ export const App = () => {
 
       const data = await res.json();
       const reply = data.choices[0].message;
-      setMessages((prev) => [...prev, reply]);
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: reply,
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -75,8 +79,13 @@ export const App = () => {
   ];
 
   const handleButtonClick = (text: string) => {
-    setMessages([...messages, { role: "user", content: text }]);
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: { role: "user", content: text },
+    });
   };
+
+  const dispatch = useDispatch();
 
   return (
     <div className="flex  flex-col h-screen bg-gray-100">
