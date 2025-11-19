@@ -6,7 +6,7 @@ export interface IMessageStore {
 }
 
 const initialState: IMessageStore = {
-  sendMessages: [],
+  sendMessages: JSON.parse(localStorage.getItem("threads") ?? '[]')
 };
 
 export const messagesSlice = createSlice({
