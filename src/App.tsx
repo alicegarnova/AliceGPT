@@ -4,7 +4,24 @@ import { RootStore } from "./store/Store";
 import { IMessage } from "./models";
 import { addMessage, deleteMessage } from "./reducers/MessagesReducer";
 
+const BUTTONS = [
+  {
+    id: 1,
+    text: "Какая сегодня погода?",
+  },
+  {
+    id: 2,
+    text: "Сколько минут ехать до университета?",
+  },
+  {
+    id: 3,
+    text: "Сколько человек живет на Земле?",
+  },
+  { id: 4, text: "Как дышат рыбы?" },
+];
+
 export const App = () => {
+  const dispatch = useDispatch();
   const messages = useSelector(
     (state: RootStore) => state.message.sendMessages
   );
@@ -19,14 +36,6 @@ export const App = () => {
       block: "end",
     });
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, loading]);
-
-  useEffect(() => {
-    localStorage.setItem("threads", JSON.stringify(messages));
-  }, [messages]);
 
   const handleDeleteMessage = (message: IMessage) => {
     dispatch(deleteMessage(message.id));
@@ -70,22 +79,6 @@ export const App = () => {
     }
   };
 
-  const buttons = [
-    {
-      id: 1,
-      text: "Какая сегодня погода?",
-    },
-    {
-      id: 2,
-      text: "Сколько минут ехать до университета?",
-    },
-    {
-      id: 3,
-      text: "Сколько человек живет на Земле?",
-    },
-    { id: 4, text: "Как дышат рыбы?" },
-  ];
-
   const handleButtonClick = (text: string) => {
     dispatch(
       addMessage({
@@ -96,7 +89,13 @@ export const App = () => {
     );
   };
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, loading]);
+
+  useEffect(() => {
+    localStorage.setItem("threads", JSON.stringify(messages));
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -125,7 +124,7 @@ export const App = () => {
       </div>
       <div className="p-4 bg-white flex gap-2">
         <div className="flex flex-wrap gap-4 ">
-          {buttons.map((button) => (
+          {BUTTONS.map((button) => (
             <button
               key={button.id}
               onClick={() => handleButtonClick(button.text)}
