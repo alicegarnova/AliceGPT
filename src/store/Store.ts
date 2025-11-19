@@ -1,5 +1,11 @@
-import {createStore} from "redux"
-import {messagesReducer} from "../reducers/MessagesReducer"
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-const store = createStore(messagesReducer)
-export default store
+import { type IMessageStore } from "../reducers/MessagesReducer";
+import messagesReducer from "../reducers/MessagesReducer";
+
+export type RootStore = { message: IMessageStore };
+
+const reducer = combineReducers({ message: messagesReducer });
+const store = configureStore({ reducer });
+
+export default store;

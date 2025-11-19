@@ -17,6 +17,7 @@
   "devDependencies": {
     "@emotion/react": "11.11.4",
     "@emotion/styled": "11.11.5",
+    "@reduxjs/toolkit": "2.10.1",
     "@tailwindcss/vite": "4.1.17",
     "@types/css-modules": "1.0.5",
     "@types/react": "18.3.3",
@@ -27,9 +28,9 @@
     "eslint": "8.57.0",
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-react-refresh": "0.4.7",
-    "react-redux": "^9.2.0",
+    "react-redux": "9.2.0",
     "react-router-dom": "6.24.0",
-    "redux": "^5.0.1",
+    "redux": "5.0.1",
     "tailwindcss": "4.1.17",
     "typescript": "5.2.2",
     "vite": "5.3.1"

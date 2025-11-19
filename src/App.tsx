@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { IMessage } from "./models";
 import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "./store/Store";
+import { IMessage } from "./models";
+import { addMessage, deleteMessage } from "./reducers/MessagesReducer";
 
 export const App = () => {
-  const messages = useSelector((state) => state.sendMessages);
+  const messages = useSelector(
+    (state: RootStore) => state.message.sendMessages
+  );
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,15 +28,22 @@ export const App = () => {
     localStorage.setItem("threads", JSON.stringify(messages));
   }, [messages]);
 
+  const handleDeleteMessage = (message: IMessage) => {
+    dispatch(deleteMessage(message.id));
+  };
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     const newMessages = [...messages, { role: "user", content: input }];
 
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: { role: "user", content: input },
-    });
+    dispatch(
+      addMessage({
+        role: "user",
+        content: input,
+        id: crypto.randomUUID(),
+      })
+    );
     setInput("");
     setLoading(true);
 
@@ -51,10 +62,7 @@ export const App = () => {
 
       const data = await res.json();
       const reply = data.choices[0].message;
-      dispatch({
-        type: "ADD_MESSAGE",
-        payload: reply,
-      });
+      dispatch(addMessage(reply));
     } catch (error) {
       console.log(error);
     } finally {
@@ -79,28 +87,38 @@ export const App = () => {
   ];
 
   const handleButtonClick = (text: string) => {
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: { role: "user", content: text },
-    });
+    dispatch(
+      addMessage({
+        role: "user",
+        content: text,
+        id: crypto.randomUUID(),
+      })
+    );
   };
 
   const dispatch = useDispatch();
 
   return (
-    <div className="flex  flex-col h-screen bg-gray-100">
-      <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex flex-col h-screen bg-gray-100">
+      <div className="flex flex-col flex-1 overflow-y-auto p-4 gap-4">
         {messages.map((message, index) => (
-          <div
-            key={index}
-            ref={index === messages.length - 1 ? messagesEndRef : undefined}
-            className={`mb-2 p-3 rounded-lg max-w-lg ${
-              message.role === "user"
-                ? "bg-blue-500 text-white ml-auto"
-                : "bg-gray-300 text-black mr-auto"
-            }`}
-          >
-            {message.content}
+          <div key={message.id} className="flex items-center justify-end gap-2">
+            <button
+              onClick={() => handleDeleteMessage(message)}
+              className="w-6 h-6 text-xs bg-gray-200 rounded-sm texx-gray-400"
+            >
+              x
+            </button>
+            <div
+              ref={index === messages.length - 1 ? messagesEndRef : undefined}
+              className={`p-3 rounded-lg max-w-lg ${
+                message.role === "user"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-300 text-black"
+              }`}
+            >
+              {message.content}
+            </div>
           </div>
         ))}
         {loading && <p className="italic text-grey-500">Loading...</p>}
