@@ -1,10 +1,10 @@
 {
-  "name": "AlicGPT",
+  "name": "pizzaShop",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite dev --port=3213",
+    "start": "vite dev --port=3214",
     "build": "vite build",
     "check": "tsc",
     "preview": "vite preview",
