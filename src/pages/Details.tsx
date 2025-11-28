@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
-import { findPizza } from "../helpers/data";
+import { findPizza } from "../helpers";
 
 export default function Details() {
   const { id } = useParams();

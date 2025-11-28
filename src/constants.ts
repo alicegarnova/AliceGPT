@@ -1,4 +1,6 @@
-import { Pizza } from "../Context/CartContext"
+import { Pizza } from "./models";
+
+export const CART_STORAGE_KEY = "pizza-cart";
 
 export const DATA: Pizza[] = [
   {
@@ -222,7 +224,3 @@ export const DATA: Pizza[] = [
     id: 31
   }
 ]
-
-export const findPizza = (id: number) => {
-    return DATA.find(pizza => pizza.id === id)
-}

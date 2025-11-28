@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
-import { DATA } from "../helpers/data";
+import { DATA } from "../constants";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCart } from "../Context/useCart";
@@ -52,11 +52,11 @@ export default function Home() {
                 <Box display="flex" alignItems="center" gap={1}>
                   <Button
                     size="small"
-                    color="error"
-                    onClick={() => removeFromCart(pizza.id)}
+                    color="success"
+                    onClick={() => addToCart(pizza)}
                     variant="outlined"
                   >
-                    -
+                    +
                   </Button>
                   <Typography
                     variant="body2"
@@ -66,11 +66,11 @@ export default function Home() {
                   </Typography>
                   <Button
                     size="small"
-                    color="success"
-                    onClick={() => addToCart(pizza)}
+                    color="error"
+                    onClick={() => removeFromCart(pizza.id)}
                     variant="outlined"
                   >
-                    +
+                    -
                   </Button>
                 </Box>
               )}

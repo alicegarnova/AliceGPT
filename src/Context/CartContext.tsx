@@ -1,21 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-
-const CART_STORAGE_KEY = "pizza-cart";
-
-export interface Pizza {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  price?: string;
-  ingredients?: string[];
-  compound?: string;
-  calorie?: string;
-}
-
-export interface CartItem extends Pizza {
-  quantity: number;
-}
+import { CartItem, Pizza } from "../models";
+import { CART_STORAGE_KEY } from "../constants";
 
 export interface CartContextType {
   cart: CartItem[];
