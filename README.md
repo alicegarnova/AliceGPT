@@ -3,7 +3,7 @@
 ## For start run:
 
 ```bash
-pnpm i
+npm i
 
-pnpm run start
+npm run start
 ```
