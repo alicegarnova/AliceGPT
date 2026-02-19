@@ -1,24 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStore } from "./store/Store";
+
+import { OPENAI_URL, SUGGESTION_BUTTONS } from "./constants";
 import { IMessage } from "./models";
 import { addMessage, deleteMessage } from "./reducers/MessagesReducer";
-
-const BUTTONS = [
-  {
-    id: 1,
-    text: "Какая сегодня погода?",
-  },
-  {
-    id: 2,
-    text: "Сколько минут ехать до университета?",
-  },
-  {
-    id: 3,
-    text: "Сколько человек живет на Земле?",
-  },
-  { id: 4, text: "Как дышат рыбы?" },
-];
+import { RootStore } from "./store/Store";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -57,7 +43,7 @@ export const App = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      const res = await fetch(OPENAI_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,7 +110,7 @@ export const App = () => {
       </div>
       <div className="p-4 bg-white flex gap-2">
         <div className="flex flex-wrap gap-4 ">
-          {BUTTONS.map((button) => (
+          {SUGGESTION_BUTTONS.map((button) => (
             <button
               key={button.id}
               onClick={() => handleButtonClick(button.text)}
